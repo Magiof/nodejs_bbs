@@ -1,0 +1,73 @@
+const express = require("express");
+const Articles = require("../schemas/articles")
+const router = express.Router();
+
+
+//글 전체 페이지 조회
+router.get("/", async (req, res) => {
+  const { articleId } = req.query;
+  const articles = await Articles.find( ).sort('-createdAt');
+  res.render('blog',{articles:articles}
+  );
+});
+
+//상세 페이지 조회
+router.get("/detail/:articleId", async (req, res) => {
+  const { articleId } = req.params;
+
+  const [detail] = await Articles.find({ articleId: Number(articleId) })
+
+  res.render('detail',{detail}
+  );
+});
+
+
+//글 수정
+router.get("/modify/:articleId", async (req, res) => {
+  const { articleId } = req.params;
+
+  const [modify] = await Articles.find({ articleId: Number(articleId) })
+
+  res.render('modify',{modify}
+  );
+});
+
+router.patch("/modify/:articleId", async (req, res)=>{
+  
+  const {content, title, authorName, password, articleId} = req.body;
+
+  const [article] = await Articles.find({ articleId: Number(articleId) });
+  if (article.password !== password){
+		res.status(400).json({'result': 'error', 'msg': '비밀번호를 확인해 주세요'}) 
+	}
+  else{
+  await Articles.updateOne({articleId: Number(articleId)}, { $set: { title, content, authorName } })
+  res.json({ success: true })
+  }
+})
+
+//글 삭제
+router.delete("/modify/:articleId",async (req, res) => {
+  const { articleId, password } = req.body;
+
+  const [article] = await Articles.find({ articleId: Number(articleId) });
+  if (article.password !== password){
+		res.status(400).json({'result': 'error', 'msg': '비밀번호를 확인해 주세요'}) 
+	}
+  else{
+    await Articles.deleteOne({ articleId: Number(articleId) }); // articleId 일치하는 것으로 삭제
+  res.json({success : true});
+}});
+
+//글 작성 페이지
+// write를 렌더하기 위한 get요청...이부분이 없으면 웹페이지를 볼 수 없음
+router.get("/write", async(req, res)=>{
+  res.render('write',{success:true})
+})
+//글 작성 페이지에서 POST실행
+router.post("/write", async (req, res) => {
+  const { title, content, authorName, password } = req.body;
+  const createdArticles = await Articles.create({ title, content, authorName, password });
+  res.json(createdArticles);
+});
+module.exports = router;

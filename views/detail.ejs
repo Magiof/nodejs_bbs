@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+		</script>
+		</head>
+		<body>
+<section class="hero is-info">
+	<div class="hero-body">
+	  <p class="title">
+		상세페이지
+	  </p>
+	</div>
+  </section>
+  <section class="section">
+    <h1 class="title"><%= detail.title %></h1>
+
+  </section>
+  
+  <div class="box">
+    <article class="media">
+      <div class="media-left">
+        <figure class="image is-64x64">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe7DzAfa4VXiqANBq9Ao0Cgfm_79NeM6Ibajw5tQNidCKbAZX6H61-nAhoOSYC7EIsV3M&usqp=CAU" alt="Image">
+        </figure>
+      </div>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong><%= detail.authorName %></strong> <small><%= detail.articleId %> 번째 작성자</small>
+            <br>
+            <%= detail.content %>
+          </p>
+          
+        </div>
+        <nav class="level is-mobile">
+          <div class="level-left">
+            <a class="level-item" aria-label="reply">
+              <span class="icon is-small">
+                <i class="fas fa-reply" aria-hidden="true"></i>
+              </span>
+            </a>
+            <a class="level-item" aria-label="retweet">
+              <span class="icon is-small">
+                <i class="fas fa-retweet" aria-hidden="true"></i>
+              </span>
+            </a>
+            <a class="level-item" aria-label="like">
+              <span class="icon is-small">
+                <i class="fas fa-heart" aria-hidden="true"></i>
+              </span>
+            </a>
+          </div>
+        </nav>
+      </div>
+    </article>
+  </div>
+  <small style="margin-left: 30px;"><%= detail.createdAt.toLocaleString() %> </small>
+  <div class="buttons" style="border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  border-radius: .25rem; float: right; margin-right: 100px;">
+    <button class="button is-info" onclick="location.href = '/blog/modify/<%= detail.articleId %>'">글 수정하기</button>
+  </div>
+
+</body>
+</html>

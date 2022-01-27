@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+			function posting() {
+		let title = $("#title").val();
+        let content = $("#content").val();
+        let authorName = $("#authorName").val();
+        let password = $("#password").val();
+  $.ajax({
+    type: "POST",
+    url: "/blog/write",
+    data: {
+      title:title,
+	  content:content,
+	  authorName:authorName,
+	  password:password,
+    },
+	success: function(response) 	{alert('작성완료!'); window.location.href = '/blog';}
+        });
+      }
+		</script>
+		</head>
+		<body>
+<section class="hero is-link">
+	<div class="hero-body">
+	  <p class="title">
+		글 작성하기
+	  </p>
+	  <p style="color:white">
+		주의: 하나라도 빼먹고 입력하면 서버 죽으니까 신중하게 입력 할 것...............
+	  </p>
+	</div>
+  </section>
+  <form class="box" style="max-width: 1200px; min-height: 750px; margin: auto; margin-top: 30px;">
+	<div class="field" style="padding: 30px; padding-bottom: 0px;">
+		<label class="label" style="font-size: 20px">제목</label>
+		<div class="control">
+		  <input class="input" name= "title" id="title" placeholder="제목을 입력하세요">
+		</div>
+	  </div>
+	<div class="field" style="padding:30px; padding-top: 20px;">
+	  <label class="label" style="font-size: 20px;">내용</label>
+	  <div class="control">
+		<input class="input" style="min-height: 300px;" name="content" id="content" placeholder="내용을 입력하세요">
+	  </div>
+	</div>
+  
+  
+	<div class="field" style="max-width: 500px; margin: auto;">
+	  <label class="label">작성자</label>
+	  <div class="control">
+		<input class="input" name= "authorName" id="authorName" placeholder="이름을 입력하세요">
+	  </div>
+	</div>
+  
+	<div class="field" style="max-width: 500px; margin: auto;">
+	  <label class="label" >비밀번호</label>
+	  <div class="control">
+		<input class="input" type="password" name="password" id="password" placeholder="********">
+	  </div>
+	</div>
+	<div class="buttons" style="border: 1px solid transparent;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	border-radius: .25rem; float: right; margin-right: 100px;">
+	<button class="button is-link" onclick="posting()" style="margin: auto;">작성완료</button>
+	</div>
+  </form>
+  </body>
+  </html>

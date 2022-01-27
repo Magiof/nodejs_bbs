@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+			function editing() {
+		let title = $("#title").val();
+        let content = $("#content").val();
+        let authorName = $("#authorName").val();
+        let password = $("#password").val();
+        let articleId = $("#articleId").val();
+  $.ajax({
+    type: "patch",
+    url: "/blog/modify/" + articleId ,
+    data: {
+      title:title,
+	  content:content,
+	  authorName:authorName,
+	  password:password,
+      articleId:articleId,
+    },
+     error: function (request, xhr, status) {
+                        alert(JSON.parse(request.responseText)["msg"]);
+     },
+	success: function () { alert('수정완료!'); window.location.href = '/blog';}
+        });
+      }
+
+      function kill() {
+        let articleId = $("#articleId").val();
+        let password = $("#password").val();
+        $.ajax({
+            type: "delete",
+            url: "/blog/modify/" + articleId ,
+            data: {
+                articleId:articleId,
+	            password:password,
+                    },
+        error: function (request, xhr, status) {
+            alert(JSON.parse(request.responseText)["msg"]);
+        },
+        success: function () { alert('삭제완료!'); window.location.href = '/blog';}
+        })
+      }
+		</script>
+		</head>
+		<body>
+<section class="hero is-danger">
+	<div class="hero-body">
+	  <p class="title">
+		글 수정하기
+	  </p>
+      <p style="color:white">
+        주의: 하나라도 빼먹고 입력하면 서버 죽으니까 신중하게 입력 할 것...............
+      </p>
+	</div>
+  </section>
+  <form class="box" style="max-width: 1200px; min-height: 750px; margin: auto; margin-top: 30px;">
+	<div class="field" style="padding: 30px; padding-bottom: 0px;">
+		<label class="label" style="font-size: 20px">제목</label>
+		<div class="control">
+		  <input class="input" name= "title" id="title" value="<%= modify.title %>">
+		</div>
+	  </div>
+	<div class="field" style="padding:30px; padding-top: 20px;">
+	  <label class="label" style="font-size: 20px;">내용</label>
+	  <div class="control">
+		<input class="input" style="min-height: 300px;" name="content" id="content" value="<%= modify.content %>">
+	  </div>
+	</div>
+  
+  
+	<div class="field" style="max-width: 500px; margin: auto;">
+	  <label class="label">작성자</label>
+	  <div class="control">
+		<input class="input" name= "authorName" id="authorName" value="<%= modify.authorName %>">
+	  </div>
+	</div>
+  
+	<div class="field" style="max-width: 500px; margin: auto;">
+	  <label class="label" >비밀번호</label>
+	  <div class="control">
+		<input class="input" type="password" name="password" id="password" placeholder="틀리면 서버 죽으니까 신중하게 입력하세요 진짜로..">
+	  </div>
+	</div>
+    <div class="buttons" style="border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    border-radius: .25rem; float: right; margin-right: 100px;">
+	<button class="button is-link" onclick="editing()" style="margin: auto;">수정완료</button><button class="button is-danger" onclick="kill()" style="margin: auto; margin-left: 10px">삭제하기</button>
+    <input type="hidden" name="articleId" id="articleId" type="number" value="<%=modify.articleId%>">
+    </div>
+  </form>
+  </body>
+  </html>
